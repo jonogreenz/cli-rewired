@@ -1,0 +1,15 @@
+{
+  "name": "cli-rewired",
+  "version": "0.1.0",
+  "description": "Rewire your cli commands, with yet another cli command!",
+  "repository": "https://github.com/jonogreenz/cli-rewired.git",
+  "author": "Jono Green <jono.green7@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "bin": {
+    "cr": "./cr.js"
+  },
+  "dependencies": {
+    "qoa": "^0.2.0"
+  }
+}
