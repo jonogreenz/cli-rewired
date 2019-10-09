@@ -28,3 +28,6 @@ jspm_packages/
 # dotenv environment variables file
 .env
 .env.test
+
+# Testing
+bin/db.json
