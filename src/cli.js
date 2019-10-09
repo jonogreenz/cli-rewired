@@ -1,19 +1,8 @@
-const qoa = require('qoa');
+const qoa = require('qoa'); // TODO: https://www.npmjs.com/package/prompts
 const spawn = require('cross-spawn');
 const yargs = require('yargs');
+const prompts = require('./prompts');
 
-const addPrompt = [
-  {
-    type: 'input',
-    query: 'Enter your full command:',
-    handle: 'command'
-  },
-  {
-    type: 'input',
-    query: 'Enter an alias name:',
-    handle: 'alias'
-  },
-];
 
 /**
  * Terminology:
@@ -22,6 +11,7 @@ const addPrompt = [
  * Rewired command == The stored alias commands that the program will allow creation of
  */
 
+// TODO: overarching try/catch
 const cli = async () => {
   // https://nodejs.org/en/knowledge/command-line/how-to-parse-command-line-arguments/
   const argv = yargs.usage(
@@ -77,19 +67,23 @@ const cli = async () => {
   
   switch (argv._[0]) {
     case ('a'): {
-      const responses = await qoa.prompt(addPrompt);
+      const responses = await qoa.prompt(prompts.add);
+      prompts.handleAdd(responses);
       break;
     }
     case ('e'): {
       const cmdAlias = argv.cmdAlias;
-      console.log(cmdAlias);
-      // const responses = await qoa.prompt(addPrompt);
+      let responses = await qoa.prompt(prompts.edit1);
+      const editItem = prompts.handleEdit1(responses, cmdAlias);
+      if (responses.update) {
+        responses = await qoa.prompt(prompts.edit2)
+        prompts.handleEdit2(responses, cmdAlias, editItem);
+      }
       break;
     }
     case ('d'): {
       const cmdAlias = argv.cmdAlias;
-      console.log(cmdAlias);
-      // const responses = await qoa.prompt(addPrompt);
+      const responses = await qoa.prompt(prompts.remove);
       break;
     }
     case ('l'): {
