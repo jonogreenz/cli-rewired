@@ -73,11 +73,26 @@ const remove = [
 		type: 'confirm',
 		query: 'Are you sure you want to remove this alias?',
 		handle: 'remove',
-		accept: 'Y',
+		accept: 'y',
 		deny: 'n'
 	}
 ]
 
+const handleRemove = (responses, cmdAlias) => {
+	if (responses.remove) {
+		const existingItems = db.getFromDb();
+		const currentItem = db.findDbItem(existingItems, cmdAlias);
+		if (currentItem) {
+			const newItems = db.removeFromDbItems(existingItems, currentItem);
+			db.setToDb(newItems);
+		}
+	}
+}
+
+const handleList = () => {
+	const existingItems = db.getFromDb();
+	return existingItems;
+}
 
 module.exports = {
 	add,
@@ -87,4 +102,6 @@ module.exports = {
 	edit2,
 	handleEdit2,
 	remove,
+	handleRemove,
+	handleList,
 };

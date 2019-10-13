@@ -84,9 +84,14 @@ const cli = async () => {
     case ('d'): {
       const cmdAlias = argv.cmdAlias;
       const responses = await qoa.prompt(prompts.remove);
+      prompts.handleRemove(responses, cmdAlias);
       break;
     }
-    case ('l'): {
+    case ('ls'): {
+      const items = prompts.handleList();
+      items.map(i => {
+        console.log(`"${i.alias}": "${i.command}"`)
+      })
       break;
     }
     default: {
